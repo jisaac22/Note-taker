@@ -52,3 +52,28 @@ app.post('/api/notes', function (req, res ) {
     })
 });
 
+app.put('/api/notes', function(req, res){
+    let noteId = JSON.parse(req.params.id)
+    fs.readFile(__dirname, '/db/db.json', function (err, notes){
+        if (err){
+        return console.log(error) 
+    } else {
+        notes = notes.filter(val => val.id !== noteId)
+        notes.JSONparse(notes)
+        fs.writeFile(__dirname, + 'db/db.json', JSON.stringify(notes), function (err, data)
+        {
+            if(err){
+                return err
+            } else {
+                res.json(notes)
+            }
+        })
+        
+    }
+    })
+
+});
+
+app.listen(PORT, function(){
+    console.log('App listening on PORT' + PORT)
+});
