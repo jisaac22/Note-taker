@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(express.static('public'))
 
 // points to server for route file, routes gives server a map how to respond
-require('./assets/js/index')(app);
+require('./Develop/public/assets/js/index')(app);
 
 // link routes for html
 app.get('*', (req, res) => res.sendFile(path.join(__dirname, '/public/index.html')));
