@@ -16,7 +16,7 @@ app.use(express.static('public'))
 require('./Develop/public/assets/js/index')(app);
 
 // link routes for html
-app.get('*', (req, res) => res.sendFile(path.join(__dirname, '/public/index.html')));
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, '/public/index.html')));
 app.get('/notes', (req, res) => res.sendFile(path.join(__dirname, '/public/notes.html')));
 
 // link routes for api to read from json file
