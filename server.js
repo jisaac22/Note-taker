@@ -16,12 +16,12 @@ app.use(express.static('public'))
 require('./Develop/public/assets/js/index')(app);
 
 // link routes for html
-app.get('/', (req, res) => res.sendFile(path.join(__dirname, '/public/index.html')));
-app.get('/notes', (req, res) => res.sendFile(path.join(__dirname, '/public/notes.html')));
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, './Develop/public/index.html')));
+app.get('/notes', (req, res) => res.sendFile(path.join(__dirname, './Develop/public/notes.html')));
 
 // link routes for api to read from json file
 app.get('/api/notes', function (req, res) {
-    fs.readFile(__dirname + '/db/db.json', function (err, data) {
+    fs.readFile(__dirname + './Develop/db/db.json', function (err, data) {
         if (err) {
           return console.log(err)
         } else {
@@ -31,7 +31,7 @@ app.get('/api/notes', function (req, res) {
 });
 
 app.post('/api/notes', function (req, res ) {
-    fs.readFile(__dirname + '/db/db.json', function (err, data) {
+    fs.readFile(__dirname + './Develop/db/db.json', function (err, data) {
         if (err) {
             return console.log(err)
         } else {
@@ -40,7 +40,7 @@ app.post('/api/notes', function (req, res ) {
             let newNote = { title: req.body.title, text: req.body.text, id: id}
             let activeNote = notes.concat(newNote)
 
-            fs.writeFile(__dirname + 'db/db.json', JSON.stringify(activeNote), function (err, data){
+            fs.writeFile(__dirname + './Develop/db/db.json', JSON.stringify(activeNote), function (err, data){
                 if (err){
                     return error
                 } else{
@@ -54,13 +54,13 @@ app.post('/api/notes', function (req, res ) {
 
 app.put('/api/notes', function(req, res){
     let noteId = JSON.parse(req.params.id)
-    fs.readFile(__dirname, '/db/db.json', function (err, notes){
+    fs.readFile(__dirname, './Develop/db/db.json', function (err, notes){
         if (err){
         return console.log(error) 
     } else {
         notes = notes.filter(val => val.id !== noteId)
         notes.JSONparse(notes)
-        fs.writeFile(__dirname, + 'db/db.json', JSON.stringify(notes), function (err, data)
+        fs.writeFile(__dirname, + './Develop/db/db.json', JSON.stringify(notes), function (err, data)
         {
             if(err){
                 return err
