@@ -5,74 +5,49 @@ const fs = require('fs')
 
 // set up for express app and port to use for application
 const app = express()
-const PORT = process.env.PORT || 8080;
+const PORT = 3000;
 
 // set up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static('public'))
+app.use(express.static(path.join(__dirname, '/Develop/public')))
 
-// points to server for route file, routes gives server a map how to respond
-require('./Develop/public/assets/js/index')(app);
 
 // link routes for html
-app.get('/', (req, res) => res.sendFile(path.join(__dirname, './Develop/public/index.html')));
-app.get('/notes', (req, res) => res.sendFile(path.join(__dirname, './Develop/public/notes.html')));
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, '/Develop/public/index.html')));
+app.get('/notes', (req, res) => res.sendFile(path.join(__dirname, '/Develop/public/notes.html')));
 
 // link routes for api to read from json file
-app.get('/api/notes', function (req, res) {
-    fs.readFile(__dirname + './Develop/db/db.json', function (err, data) {
-        if (err) {
-          return console.log(err)
-        } else {
-            res.json(JSON.parse(data))
-        }
-    })
-});
-
 app.post('/api/notes', function (req, res ) {
-    fs.readFile(__dirname + './Develop/db/db.json', function (err, data) {
+    fs.readFile(__dirname + '/Develop/db/db.json', function (err,) {
         if (err) {
             return console.log(err)
-        } else {
-            notes = JSON.parse(notes)
-            let id = notes[notes.length -1].id + 1
-            let newNote = { title: req.body.title, text: req.body.text, id: id}
-            let activeNote = notes.concat(newNote)
-
-            fs.writeFile(__dirname + './Develop/db/db.json', JSON.stringify(activeNote), function (err, data){
+        } else { 
+            let newNote = {title: req.body.title, text: req.body.text}
+            console.log(newNote)
+            fs.appendFile(__dirname + '/Develop/db/db.json', JSON.stringify(newNote), function (err){
                 if (err){
-                    return error
-                } else{
-                    console.log(activeNote)
-                    res.json(activeNote)
+                    throw err
                 }
-            })
+            }
+                
+            )
         }
     })
 });
 
-app.put('/api/notes', function(req, res){
-    let noteId = JSON.parse(req.params.id)
-    fs.readFile(__dirname, './Develop/db/db.json', function (err, notes){
+app.get('/api/notes',(req, res) => {
+    fs.readFile(__dirname + '/Develop/db/db.json', function(err, data){
         if (err){
-        return console.log(error) 
-    } else {
-        notes = notes.filter(val => val.id !== noteId)
-        notes.JSONparse(notes)
-        fs.writeFile(__dirname, + './Develop/db/db.json', JSON.stringify(notes), function (err, data)
-        {
-            if(err){
-                return err
-            } else {
-                res.json(notes)
-            }
-        })
-        
-    }
+            throw err
+        } else {
+         res.send(data)
+        }
     })
+})
 
-});
+
+
 
 app.listen(PORT, function(){
     console.log('App listening on PORT' + PORT)
