@@ -6,7 +6,10 @@ const fs = require('fs')
 // set up for express app and port to use for application
 const app = express()
 const PORT = 3000;
-
+var notes = JSON.parse(fs.readFile(__dirname + '/Develop/db/db.json', function (err){
+    if (err)
+    throw err
+}))
 // set up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -25,7 +28,8 @@ app.post('/api/notes', function (req, res ) {
         } else { 
             let newNote = {title: req.body.title, text: req.body.text}
             console.log(newNote)
-            fs.appendFile(__dirname + '/Develop/db/db.json', JSON.stringify(newNote), function (err){
+            notes.push(newNote)
+            fs.writeFile(__dirname + '/Develop/db/db.json', JSON.stringify(notes), function (err){
                 if (err){
                     throw err
                 }
