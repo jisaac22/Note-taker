@@ -9,6 +9,7 @@ const fs = require('fs')
 const app = express()
 const PORT = process.env.PORT || 3000;
 var notes = JSON.parse(fs.readFileSync(__dirname + '/Develop/db/db.json', 'utf8'))
+const { uuid } = require('uuidv4');
 // set up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -25,7 +26,8 @@ app.post('/api/notes', function (req, res ) {
         if (err) {
             return console.log(err)
         } else { 
-            let newNote = {title: req.body.title, text: req.body.text}
+            let id = uuid()
+            let newNote = {title: req.body.title, text: req.body.text, id: id}
             console.log(newNote)
             notes.push(newNote)
        

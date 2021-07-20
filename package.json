@@ -1,7 +1,7 @@
 {
   "name": "note-taker",
   "version": "1.0.0",
-  "description": "",
+  "description": "Simple App that allows you to save the title of a note and details. Once saved it would be logged on the left and once clicked information will be displayed on the right side.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -21,6 +21,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "inquirer": "^8.1.2",
-    "nodemon": "^2.0.12"
+    "nodemon": "^2.0.12",
+    "uuidv4": "^6.2.11"
   }
 }
