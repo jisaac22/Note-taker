@@ -2,6 +2,8 @@
 const express = require('express')
 const path = require('path')
 const fs = require('fs')
+// const { v4: uuidv4 } = require("uuid");
+
 
 // set up for express app and port to use for application
 const app = express()
@@ -26,21 +28,19 @@ app.post('/api/notes', function (req, res ) {
             let newNote = {title: req.body.title, text: req.body.text}
             console.log(newNote)
             notes.push(newNote)
+       
+
             fs.writeFile(__dirname + '/Develop/db/db.json', JSON.stringify(notes), function (err){
                 if (err){
                     throw err
                 }
-            }
-                
-            )
+            })
         }
     })
 });
 
-app.get('/api/notes',(req, res) => { 
-    res.json(notes)})
-
-
+  app.get('/api/notes', (req, res) => res.sendFile(path.join(__dirname, '/Develop/db/db.json')));
+   
 
 
 app.listen(PORT, function(){

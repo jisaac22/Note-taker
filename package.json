@@ -20,6 +20,7 @@
   "homepage": "https://github.com/jisaac22/Note-taker#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "inquirer": "^8.1.2",
     "nodemon": "^2.0.12"
   }
 }
